@@ -422,6 +422,7 @@ h1 {
 @media (max-width: 768px) {
     body {
         gap: 20px;
+        padding: 0;
     }
 
     .ahorcado-container {
@@ -438,6 +439,8 @@ h1 {
 
     .palabra-teclado, .teclado {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         gap: 10px;
         width: 100%;
         padding: 30px;
@@ -449,6 +452,7 @@ h1 {
 
     #teclado {
         grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+        width: 100%;
         gap: 6px;
         padding: 15px;
         height: auto;
@@ -460,6 +464,7 @@ h1 {
     }
 
     .pistas {
+        width: 100%;
         font-size: 32px;
     }
 }
