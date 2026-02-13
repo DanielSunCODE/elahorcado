@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorcado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="score">
+        <span id="victorias">0</span> <!-- Aquí se actualiza con puntaje actual -->
+        <span>/</span>
+        <span id="derrotas">0</span> <!-- Aquí se actualiza con puntaje actual -->
+    </div>
+
+    <h1>EL AHORCADO</h1>
+
+    <div class="contador-errores"> <!-- Por partida -->
+        <div class="errores-totales">Errores: <span id="errores">0</span>/6</div>
+    </div>
+    <div class="contenido-juego">
+        <div class="ahorcado-container">
+            <div class="horca">
+                <svg xmlns="http://www.w3.org/2000/svg" width="978" height="1010" viewBox="0 0 978 1010" fill="none"
+                    class="svg">
+                    <rect y="942" width="596" height="68" fill="#D9D9D9" />
+                    <path
+                        d="M885.001 357C885.14 333.663 928 283 928 283C928 283 966.364 334.218 966.5 357C966.637 379.921 950.915 407.454 928 408C904.533 408.559 884.86 380.473 885.001 357Z"
+                        stroke="#D9D9D9" stroke-width="11" />
+                    <rect x="251" width="94" height="942" fill="#D9D9D9" />
+                    <rect x="345" width="633" height="44" fill="#D9D9D9" />
+                    <rect x="332" y="226.989" width="275" height="18" transform="rotate(-45.4541 332 226.989)"
+                        fill="#D9D9D9" />
+                    <rect x="919" y="44" width="14" height="244" fill="#D9D9D9" />
+                </svg>
+            </div>
+            <div class="ahorcado">
+                <div class="cabeza err1 parte-ahorcado"></div>
+                <div class="torso err2 parte-ahorcado"></div>
+                <div class="brazo-izquierdo err3 parte-ahorcado"></div>
+                <div class="brazo-derecho err4 parte-ahorcado"></div>
+                <div class="pierna-izquierda err5 parte-ahorcado"></div>
+                <div class="pierna-derecha err6 parte-ahorcado"></div>
+            </div>
+        </div>
+        <div class="palabra-teclado">
+            <div class="pistas-container">
+                <h2>Palabra</h2>
+                <div class="pistas" id="palabra-secreta">
+                    <!-- Renderizado desde JavaScript -->
+                    <div class="palabra 1">
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="adivinada">A</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="adivinada">C</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="adivinada">F</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                    </div>
+                    <span class="espacio"></span>
+                    <div class="palabra 2">
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                        <span class="secreta">_</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="teclado">
+                <button class="tecla" data-letra="A">A</button>
+                <button class="tecla" data-letra="B">B</button>
+                <button class="tecla" data-letra="C">C</button>
+                <button class="tecla" data-letra="D">D</button>
+                <button class="tecla" data-letra="E">E</button>
+                <button class="tecla" data-letra="F">F</button>
+                <button class="tecla" data-letra="G">G</button>
+                <button class="tecla" data-letra="H">H</button>
+                <button class="tecla" data-letra="I">I</button>
+                <button class="tecla" data-letra="J">J</button>
+                <button class="tecla" data-letra="K">K</button>
+                <button class="tecla" data-letra="L">L</button>
+                <button class="tecla" data-letra="M">M</button>
+                <button class="tecla" data-letra="N">N</button>
+                <button class="tecla" data-letra="Ñ">Ñ</button>
+                <button class="tecla" data-letra="O">O</button>
+                <button class="tecla" data-letra="P">P</button>
+                <button class="tecla" data-letra="Q">Q</button>
+                <button class="tecla" data-letra="R">R</button>
+                <button class="tecla" data-letra="S">S</button>
+                <button class="tecla" data-letra="T">T</button>
+                <button class="tecla" data-letra="U">U</button>
+                <button class="tecla" data-letra="V">V</button>
+                <button class="tecla" data-letra="W">W</button>
+                <button class="tecla" data-letra="X">X</button>
+                <button class="tecla" data-letra="Y">Y</button>
+                <button class="tecla" data-letra="Z">Z</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Empezar Juego -->
+    <div class="modal-inicio">
+        <h2 class="modal-inicio-titulo">¿Empezar juego?</h2>
+        <button id="btn-empezar" class="modal-inicio-btn">Empezar</button>
+    </div>
+
+    <!-- Modal Victoria y Derrota -->
+    <div class="modal-victoria">
+        <div class="modal-victoria-content">
+            <h2 class="modal-victoria-titulo">¡Felicidades Has Ganado!</h2>
+            <button class="btn-jugar-nuevamente modal-victoria-btn">Volver a Jugar</button>
+        </div>
+    </div>
+    <div class="modal-derrota">
+        <div class="modal-derrota-content">
+            <h2 class="modal-derrota-titulo">¡Lo siento, has perdido!</h2>
+            <p>La palabra correcta era: <span id="palabra-correcta"></span></p>
+            <button class="btn-jugar-nuevamente modal-derrota-btn">Volver a Jugar</button>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+
+</html>

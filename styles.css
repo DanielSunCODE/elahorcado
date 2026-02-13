@@ -1,0 +1,465 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fdfdfd 0%, #e3e3e3 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* PUNTUACIÓN */
+.score {
+    background: rgba(213, 213, 213, 0.24);
+    padding: 10px 30px;
+    width: fit-content;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 2px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+.score span:first-child {
+    color: #27ae60;
+    margin-right: 10px;
+}
+
+.score span:nth-child(2) {
+    color: #95a5a6;
+    margin: 0 10px;
+}
+
+.score span:last-child {
+    color: #e74c3c;
+    margin-left: 10px;
+}
+
+/* TITULO */
+h1 {
+    font-size: 36px;
+    color: #2c3e50;
+    text-align: center;
+    margin: 40px 0 30px;
+    letter-spacing: 4px;
+}
+
+/* CONTADOR DE ERRORES */
+.contador-errores {
+    font-size: 14px;
+    color: #d15050;
+    text-align: center;
+    min-width: 200px;
+}
+
+/* CONTENIDO JUEGO LAYOUT */
+.contenido-juego{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* CONTENEDOR PRINCIPAL DEL AHORCADO */
+.ahorcado-container {
+    width: 50%;
+    height: 50vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* HORCA */
+.horca {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    margin-right: clamp(220px, 18vw, 400px);
+    z-index: 10;
+}
+
+.horca svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    stroke: #513d0a;
+}
+
+.horca svg rect {
+    fill: #7e6c3f;
+}
+
+.horca svg path {
+    fill: none;
+    stroke: #7e6c3f;
+    stroke-width: 11px;
+}
+
+/* AHORCADO */
+.ahorcado {
+    position: absolute;
+    width: 150px;
+    height: 220px;
+    top: clamp(100px, 15vh, 130px);
+    transform: translateX(-4px);
+    z-index: 100;
+}
+
+.parte-ahorcado{
+    opacity: 0;
+}
+
+.ahorcado .cabeza {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 3px solid #2c3e50;
+    border-radius: 50%;
+    transition: opacity 0.3s ease;
+}
+
+.ahorcado .cabeza::before {
+    content: '';
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 3px;
+    background: #2c3e50;
+}
+
+.ahorcado .torso {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 10px;
+    height: 85px;
+    background: #2c3e50;
+    border-radius: 2px;
+    transition: opacity 0.3s ease;
+}
+
+.ahorcado .brazo-izquierdo {
+    position: absolute;
+    top: 60px;
+    left: -35px;
+    right: 0;
+    margin: auto;
+    rotate: -30deg;
+    width: 40px;
+    height: 3px;
+    background: #2c3e50;
+    border-radius: 2px;
+    transition: opacity 0.3s ease;
+}
+
+.ahorcado .brazo-derecho {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: -35px;
+    margin: auto;
+    rotate: 30deg;
+    width: 40px;
+    height: 3px;
+    background: #2c3e50;
+    border-radius: 2px;
+    transition: opacity 0.3s ease;
+}
+
+.ahorcado .pierna-izquierda {
+    position: absolute;
+    top: 120px;
+    left: -35px;
+    right: 0;
+    margin: auto;
+    rotate: 30deg;
+    width: 3px;
+    height: 55px;
+    background: #2c3e50;
+    border-radius: 2px;
+    transition: opacity 0.3s ease;
+}
+
+.ahorcado .pierna-derecha {
+    position: absolute;
+    top: 120px;
+    left: 0;
+    right: -35px;
+    margin: auto;
+    rotate: -30deg;
+    width: 3px;
+    height: 55px;
+    background: #2c3e50;
+    border-radius: 2px;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase para mostrar partes (cuando se equivoca) */
+.mostrar {
+    opacity: 1 !important;
+}
+
+/* Flex pistas y teclado */
+.palabra-teclado {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+/* PISTAS */
+.pistas-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-width: 300px;
+    max-width: 500px;
+    height: 200px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.pistas-container h2 {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.pistas {
+    font-size: 30px;
+    font-weight: 300;
+    color: #3498db;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.pistas span{
+    margin: 0 5px;
+}
+
+.pistas .espacio {
+    width: 20px;
+    display: inline-block;
+}
+
+.palabra{
+    display: flex;
+    gap: 5px;
+}
+
+/* TECLADO */
+#teclado {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+    gap: 8px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    max-width: 500px;
+    height: 200px;
+    width: 100%;
+}
+
+.tecla {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.tecla:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.tecla:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.tecla:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+.tecla-acertada {
+    background: #27ae60 !important;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3) !important;
+}
+
+.tecla-incorrecta {
+    background: #e74c3c !important;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3) !important;
+}
+
+/* MODAL INICIO */
+.modal-inicio {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-inicio-titulo {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.modal-inicio-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.modal-inicio-btn:hover {
+    background: #2980b9;
+}
+
+/* MODALES VICTORIA Y DERROTA */
+.modal-victoria, .modal-derrota {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    display: none;
+}
+
+.modal-victoria-content, .modal-derrota-content {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 80%;
+    max-width: 600px;
+    height: fit-content;
+    padding: 40px 30px;
+    background: linear-gradient(#fff, #eee);
+    box-shadow: 0 0 10px #00000032;
+    border-radius: 14px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-victoria-titulo, .modal-derrota-titulo {
+    font-size: 36px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.modal-derrota-content p {
+    margin-bottom: 20px;
+}
+
+.modal-victoria-btn, .modal-derrota-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    body {
+        gap: 20px;
+    }
+
+    .ahorcado-container {
+        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .horca,
+    .ahorcado {
+        transform: scale(0.8);
+    }
+
+    .palabra-teclado, .teclado {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        padding: 30px;
+    }
+
+    .pistas-container{
+        width: 100%;
+    }
+
+    #teclado {
+        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+        gap: 6px;
+        padding: 15px;
+        height: auto;
+    }
+
+    .tecla {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .pistas {
+        font-size: 32px;
+    }
+}
