@@ -1,0 +1,15 @@
+{
+  "name": "elahorcado",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Juego del ahorcado",
+  "scripts": {
+    "start": "serve -s . -l ${PORT:-8080}"
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
