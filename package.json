@@ -4,7 +4,7 @@
   "private": true,
   "description": "Juego del ahorcado",
   "scripts": {
-    "start": "serve -s . -l ${PORT:-8080}"
+    "start": "npx --yes serve@14 -s . -l ${PORT:-8080}"
   },
   "dependencies": {
     "serve": "^14.2.3"
